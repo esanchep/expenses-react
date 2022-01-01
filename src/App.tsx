@@ -1,4 +1,5 @@
 import { Link, Outlet, Route, Routes } from 'react-router-dom';
+import { Button, DateRangePicker, Divider, Loader, Stack } from 'rsuite';
 import './App.css';
 import logo from './logo.svg';
 
@@ -7,29 +8,41 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <Routes>
-          <Route path="/">
-            <Route index element={<Home />} />
-            <Route path="about">
-              <Route index element={<About />} />
-              <Route path="test1" element={<Test1 />} />
-              <Route path="test2" element={<Test2 />} />
-            </Route>
-          </Route>
-        </Routes>
+        <p>React with React Suite</p>
+        <ReactSuiteExamples />
+        <ReactRouterExample />
       </header>
     </div>
+  );
+}
+
+function ReactSuiteExamples() {
+  return (
+    <>
+      <Stack divider={<Divider vertical />}>
+        <Loader />
+        <Button>Button</Button>
+        <DateRangePicker />
+      </Stack>
+    </>
+  );
+}
+
+function ReactRouterExample() {
+  return (
+    <>
+      <p>React sub-routes example</p>
+      <Routes>
+        <Route path="/">
+          <Route index element={<Home />} />
+          <Route path="about">
+            <Route index element={<About />} />
+            <Route path="test1" element={<Test1 />} />
+            <Route path="test2" element={<Test2 />} />
+          </Route>
+        </Route>
+      </Routes>
+    </>
   );
 }
 

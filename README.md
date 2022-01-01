@@ -11,6 +11,7 @@ Added libraries:
 
 - React Router (v6.2.1): <https://reactrouter.com>
 - React Redux (7.2.6): <https://react-redux.js.org>
+- React Suite (5.4.3): <https://rsuitejs.com> (components library)
 
 ## Getting Started with Create React App
 
