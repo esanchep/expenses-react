@@ -9,9 +9,11 @@ Pre-requisites:
 
 Added libraries:
 
-- React Router (v6.2.1): <https://reactrouter.com>
-- React Redux (7.2.6): <https://react-redux.js.org>
-- React Suite (5.4.3): <https://rsuitejs.com> (components library)
+- React Router v6.2.1: <https://reactrouter.com>
+- React Redux v7.2.6: <https://react-redux.js.org>
+- React Suite v5.4.3 (components library): <https://rsuitejs.com>
+- Jest v27.4.5 (testing library): <https://jestjs.io>
+- React Testing Library v12.1.2 (testing library): <https://testing-library.com>
 
 ## Getting Started with Create React App
 
