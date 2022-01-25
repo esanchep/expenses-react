@@ -33,13 +33,12 @@ function ReactRouterExample() {
     <>
       <p>React sub-routes example</p>
       <Routes>
-        <Route path="/">
-          <Route index element={<Home />} />
-          <Route path="about">
-            <Route index element={<About />} />
-            <Route path="test1" element={<Test1 />} />
-            <Route path="test2" element={<Test2 />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />}>
+          <Route path="test1" element={<Test1 />}>
+              <Route path="sub" element={<SubTest />} />
           </Route>
+          <Route path="test2" element={<Test2 />} />
         </Route>
       </Routes>
     </>
@@ -67,8 +66,8 @@ function About() {
       </main>
       <nav>
         <Link to="/">Home</Link> | About
-        <Outlet />
       </nav>
+      <Outlet />
     </>
   );
 }
@@ -76,8 +75,10 @@ function About() {
 function Test1() {
   return (
     <>
-      This is TEST 1
-      <Link to="../test2">To TEST2</Link>
+      This is /test1
+      <Link to="../test2">To /test2</Link>
+      <Link to="sub">To /sub</Link>
+      <div><Outlet /></div>
     </>
   );
 }
@@ -85,9 +86,15 @@ function Test1() {
 function Test2() {
   return (
     <>
-      This is TEST 2
-      <Link to="../test1">To TEST1</Link>
+      This is /test2
+      <Link to="../test1">To /test1</Link>
     </>
+  );
+}
+
+function SubTest() {
+  return (
+    <>This is /sub</>
   );
 }
 
