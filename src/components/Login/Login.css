@@ -1,0 +1,20 @@
+.Login {
+  background: rgb(90,66,105);
+  background: linear-gradient(146deg, rgba(90,66,105,1) 0%, rgba(47,46,98,1) 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.Login-input {
+  margin-bottom: 2vmin;
+  display: block;
+  max-width: 35vmin;
+  background: rgba(0, 0, 0, 0.15) !important;
+  border-color: rgb(90,66,105) !important;
+  color: white !important;
+}
