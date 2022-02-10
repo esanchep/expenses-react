@@ -5,11 +5,14 @@ import App from './components/App';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import "rsuite/dist/rsuite.min.css";
+import { CustomProvider } from 'rsuite';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <CustomProvider theme="dark">
+        <App />
+      </CustomProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
