@@ -1,9 +1,37 @@
-import { useEffect, useState } from "react";
-import { Button, Table } from "rsuite";
+import Dashboard from '@rsuite/icons/Dashboard';
+import ListIcon from '@rsuite/icons/List';
+import SettingIcon from '@rsuite/icons/Setting';
+import { ReactElement, useEffect, useState } from "react";
+import { Button, Nav, Sidenav, Table } from "rsuite";
 import Expense from "./Expense";
 import './Expenses.css';
 
 const { Column, HeaderCell, Cell } = Table;
+
+function Sidebar({ expandable = false, children }: { expandable: boolean; children: JSX.Element[] }) {
+  const [expanded, setExpanded] = useState<boolean>(false);
+  const expandSidebar = () => setExpanded(true);
+  const shrinkSidebar = () => setExpanded(false);
+  return (
+    <Sidenav
+      expanded={expandable && expanded}
+      onMouseEnter={expandSidebar}
+      // onMouseLeave={shrinkSidebar}
+      >
+      <Sidenav.Body>
+        {children}
+      </Sidenav.Body>
+    </Sidenav>
+  );
+}
+
+function SidebarItem({ icon, text }: { icon: ReactElement; text: string; }) {
+  return (
+    <Nav>
+      <Nav.Item icon={icon}>{text}</Nav.Item>
+    </Nav>
+  );
+}
 
 function Expenses() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -14,13 +42,18 @@ function Expenses() {
       .then(data => data.json())
       .then((response: { totalElements: number; expenses: Expense[] }) => setExpenses(response.expenses));
   };
-  
+
   useEffect(() => {
     setTableData(expenses);
   }, [expenses]);
 
   return (
     <div className="Expenses">
+      <Sidebar expandable={true}>
+        <SidebarItem icon={<Dashboard />} text="Summary" />
+        <SidebarItem icon={<ListIcon />} text="Expenses" />
+        <SidebarItem icon={<SettingIcon />} text="Configuration" />
+      </Sidebar>
       <Button onClick={fetchExpenses}>Fetch!</Button>
       <Table data={tableData} autoHeight={true}>
         <Column width={250}>
