@@ -1,4 +1,11 @@
 .Expenses {
   min-height: 100vh;
-  font-size: 16px;
+}
+
+/* 
+ * Override default behavior of rsuite.
+ * Remove the margin-bottom 10px when sidenav is expanded
+ */
+ul.rs-sidenav-nav.rs-nav.rs-nav-default.rs-nav-vertical {
+  margin-bottom: 0;
 }
