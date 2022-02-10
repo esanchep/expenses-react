@@ -16,8 +16,7 @@ function Sidebar({ expandable = false, children }: { expandable: boolean; childr
     <Sidenav
       expanded={expandable && expanded}
       onMouseEnter={expandSidebar}
-      // onMouseLeave={shrinkSidebar}
-      >
+      onMouseLeave={shrinkSidebar}>
       <Sidenav.Body>
         {children}
       </Sidenav.Body>
