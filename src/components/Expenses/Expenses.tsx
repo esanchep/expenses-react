@@ -1,86 +1,75 @@
-import Dashboard from '@rsuite/icons/Dashboard';
-import ListIcon from '@rsuite/icons/List';
-import SettingIcon from '@rsuite/icons/Setting';
-import { ReactElement, useEffect, useState } from "react";
-import { Button, Nav, Sidenav, Table } from "rsuite";
-import Expense from "./Expense";
+import FunnelIcon from '@rsuite/icons/Funnel';
+import PlusIcon from '@rsuite/icons/Plus';
+import SearchIcon from '@rsuite/icons/Search';
+import { useState } from "react";
+import { IconButton } from "rsuite";
+import { Table as ExpensesTable } from '../Table/Table';
+import TableBody from '../Table/TableBody';
+import TableCell from '../Table/TableCell';
+import TableHead from '../Table/TableHead';
+import TableRow from '../Table/TableRow';
+import { Expense } from "./Expense";
 import './Expenses.css';
 
-const { Column, HeaderCell, Cell } = Table;
 
-function Sidebar({ expandable = false, children }: { expandable: boolean; children: JSX.Element[] }) {
-  const [expanded, setExpanded] = useState<boolean>(false);
-  const expandSidebar = () => setExpanded(true);
-  const shrinkSidebar = () => setExpanded(false);
-  return (
-    <Sidenav
-      expanded={expandable && expanded}
-      onMouseEnter={expandSidebar}
-      onMouseLeave={shrinkSidebar}>
-      <Sidenav.Body>
-        {children}
-      </Sidenav.Body>
-    </Sidenav>
-  );
-}
+// function toEuropeanFormat(amount: number): string {
+//   return amount.toLocaleString(navigator.language, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+// }
 
-function SidebarItem({ icon, text }: { icon: ReactElement; text: string; }) {
-  return (
-    <Nav>
-      <Nav.Item icon={icon}>{text}</Nav.Item>
-    </Nav>
-  );
-}
-
-function Expenses() {
+function Expenses(): JSX.Element {
   const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [tableData, setTableData] = useState<Expense[]>([]);
+  // const [tableData, setTableData] = useState<ExpenseItem[]>([]);
   const token = localStorage.getItem('token') || '';
   const fetchExpenses = () => {
-    fetch(`http://localhost:8080/expenses?groupId=${token}`, { headers: { token } })
+    fetch(`http://localhost:8080/expenses?groupId=${token}&pageSize=10`, { headers: { token } })
       .then(data => data.json())
-      .then((response: { totalElements: number; expenses: Expense[] }) => setExpenses(response.expenses));
+      .then((response: { totalElements: number; expenses: Expense[] }) => {
+        setExpenses(response.expenses)
+      });
   };
 
-  useEffect(() => {
-    setTableData(expenses);
-  }, [expenses]);
+  // useEffect(() => {
+  //   setTableData(expenses.map(expense => ({
+  //     ...expense,
+  //     amount: toEuropeanFormat(expense.amount),
+  //     date: (new Date(expense.date.toString())).toLocaleDateString(navigator.language)
+  //   })));
+  // }, [expenses]);
 
   return (
-    <div className="Expenses">
-      <Sidebar expandable={true}>
-        <SidebarItem icon={<Dashboard />} text="Summary" />
-        <SidebarItem icon={<ListIcon />} text="Expenses" />
-        <SidebarItem icon={<SettingIcon />} text="Configuration" />
-      </Sidebar>
-      <Button onClick={fetchExpenses}>Fetch!</Button>
-      <Table data={tableData} autoHeight={true}>
-        <Column width={250}>
-          <HeaderCell>Tipo</HeaderCell>
-          <Cell dataKey="type" />
-        </Column>
-
-        <Column width={250}>
-          <HeaderCell>Subtipo</HeaderCell>
-          <Cell dataKey="subtype" />
-        </Column>
-
-        <Column width={150}>
-          <HeaderCell>Cantidad</HeaderCell>
-          <Cell dataKey="amount" />
-        </Column>
-
-        <Column width={150}>
-          <HeaderCell>Fecha</HeaderCell>
-          <Cell dataKey="date" />
-        </Column>
-
-        <Column flexGrow={1} minWidth={250}>
-          <HeaderCell>Comentario</HeaderCell>
-          <Cell dataKey="comment" />
-        </Column>
-      </Table>
-    </div>
+    <>
+      <div className="Expenses-action-bar">
+        <IconButton className="Expenses-action-bar-button" appearance="primary" color="green" size="md" icon={<PlusIcon />}>
+          Add
+        </IconButton>
+        <IconButton className="Expenses-action-bar-button" size="md" icon={<FunnelIcon />}>
+          Filter
+        </IconButton>
+        <IconButton className="Expenses-action-bar-button" appearance="primary" onClick={fetchExpenses} size="md" icon={<SearchIcon />}>
+          Search
+        </IconButton>
+      </div>
+      <ExpensesTable>
+        <TableHead>
+          <TableCell className="type">Tipo</TableCell>
+          <TableCell className="subtype">Subtipo</TableCell>
+          <TableCell className="amount">Cantidad</TableCell>
+          <TableCell className="date">Fecha</TableCell>
+          <TableCell className="comment">Comentario</TableCell>
+        </TableHead>
+        <TableBody>
+          {expenses.map(expense =>
+            <TableRow>
+              <TableCell className="type">{expense.type}</TableCell>
+              <TableCell className="subtype">{expense.subtype}</TableCell>
+              <TableCell className="amount">{expense.amount} €</TableCell>
+              <TableCell className="date">{expense.date}</TableCell>
+              <TableCell className="comment">{expense.comment}</TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </ExpensesTable>
+    </>
   );
 }
 

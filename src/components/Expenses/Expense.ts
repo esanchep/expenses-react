@@ -1,4 +1,4 @@
-type Expense = {
+export type Expense = {
     id: string;
     groupId: string;
     type: string;
@@ -8,4 +8,12 @@ type Expense = {
     comment: string;
 };
 
-export default Expense;
+export type ExpenseItem = {
+    id: string;
+    groupId: string;
+    type: string;
+    subtype: string;
+    amount: string;
+    date: string;
+    comment: string;
+};

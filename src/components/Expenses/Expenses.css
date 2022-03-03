@@ -1,11 +1,14 @@
 .Expenses {
   min-height: 100vh;
+  display: grid;
+  grid-template-columns: 56px auto;
 }
 
-/* 
- * Override default behavior of rsuite.
- * Remove the margin-bottom 10px when sidenav is expanded
- */
-ul.rs-sidenav-nav.rs-nav.rs-nav-default.rs-nav-vertical {
-  margin-bottom: 0;
+.Expenses-action-bar {
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.Expenses-action-bar-button {
+  margin-left: 10px;
 }
