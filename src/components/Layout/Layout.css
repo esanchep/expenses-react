@@ -1,0 +1,14 @@
+.Layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 56px auto;
+}
+
+.Sidebar {
+  background-color: var(--rs-sidenav-default-bg);
+  padding-top: 40px;
+}
+
+.Content {
+  padding: 50px;
+}
