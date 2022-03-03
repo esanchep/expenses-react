@@ -1,0 +1,21 @@
+.tbody {
+  position: relative;
+  color: var(--rs-text-primary);
+  height: calc(100vh - 190px);
+  overflow-y: scroll;
+}
+
+.tbody::-webkit-scrollbar {
+  width: 12px;
+}
+
+.tbody::-webkit-scrollbar-track {
+  background: var(--rs-table-scrollbar-vertical-track);
+}
+
+.tbody::-webkit-scrollbar-thumb {
+  background-color: var(--rs-table-scrollbar-thumb);
+  border-radius: 20px;
+  border: 0;
+  opacity: 0.5;
+}

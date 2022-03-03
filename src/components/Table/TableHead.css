@@ -1,0 +1,4 @@
+.thead {
+  border-bottom: 2px solid var(--rs-border-secondary);
+  display: flex;
+}

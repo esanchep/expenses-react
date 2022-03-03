@@ -1,0 +1,24 @@
+.cell {
+  padding: 10px;
+}
+
+.type {
+  width: 200px;
+}
+
+.subtype {
+  width: 200px;
+}
+
+.amount {
+  width: 100px;
+  text-align: right;
+}
+
+.date {
+  width: 150px;
+}
+
+.comment {
+  width: 300px;
+}

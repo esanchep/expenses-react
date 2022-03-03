@@ -1,0 +1,5 @@
+.table {
+  width: 100%;
+  color: var(--rs-text-secondary);
+  background-color: var(--rs-bg-card);
+}
