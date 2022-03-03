@@ -1,0 +1,8 @@
+.tr {
+  border-bottom: 1px solid var(--rs-border-secondary);
+  display: flex;
+}
+
+.tr:hover {
+  background-color: var(--rs-state-hover-bg);
+}
