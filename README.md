@@ -17,7 +17,7 @@ Added libraries:
 - Jest v27.4.5 (testing framework): <https://jestjs.io>
 - React Testing Library v12.1.2 (testing library): <https://testing-library.com>
 
-## Getting Started with Create React App
+## Getting Started
 
 ### How to run the application
 
