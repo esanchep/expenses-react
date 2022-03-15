@@ -3,6 +3,8 @@ import PlusIcon from '@rsuite/icons/Plus';
 import SearchIcon from '@rsuite/icons/Search';
 import { useState } from "react";
 import { IconButton } from "rsuite";
+import Currency from '../Currency/Currency';
+import Header from '../Layout/header/Header';
 import { Table as ExpensesTable } from '../Table/Table';
 import TableBody from '../Table/TableBody';
 import TableCell from '../Table/TableCell';
@@ -12,33 +14,24 @@ import { Expense } from "./Expense";
 import './Expenses.css';
 
 
-// function toEuropeanFormat(amount: number): string {
-//   return amount.toLocaleString(navigator.language, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
-// }
-
 function Expenses(): JSX.Element {
   const [expenses, setExpenses] = useState<Expense[]>([]);
-  // const [tableData, setTableData] = useState<ExpenseItem[]>([]);
   const token = localStorage.getItem('token') || '';
   const fetchExpenses = () => {
-    fetch(`http://localhost:8080/expenses?groupId=${token}&pageSize=10`, { headers: { token } })
+    fetch(`http://localhost:8080/expenses?groupId=${token}&pageSize=100`, { headers: { token } })
       .then(data => data.json())
-      .then((response: { totalElements: number; expenses: Expense[] }) => {
-        setExpenses(response.expenses)
-      });
+      .then((response: { reason: string; totalElements: number; expenses: Expense[] }) => {
+        if (!response?.expenses) {
+          throw new Error(!! response ? response.reason : 'Error trying to get expenses.');
+        }
+        setExpenses(response?.expenses || [])
+      })
+      .catch(error => console.error(error.message));
   };
-
-  // useEffect(() => {
-  //   setTableData(expenses.map(expense => ({
-  //     ...expense,
-  //     amount: toEuropeanFormat(expense.amount),
-  //     date: (new Date(expense.date.toString())).toLocaleDateString(navigator.language)
-  //   })));
-  // }, [expenses]);
 
   return (
     <>
-      <div className="Expenses-action-bar">
+      <Header title="Expenses">
         <IconButton className="Expenses-action-bar-button" appearance="primary" color="green" size="md" icon={<PlusIcon />}>
           Add
         </IconButton>
@@ -48,7 +41,7 @@ function Expenses(): JSX.Element {
         <IconButton className="Expenses-action-bar-button" appearance="primary" onClick={fetchExpenses} size="md" icon={<SearchIcon />}>
           Search
         </IconButton>
-      </div>
+      </Header>
       <ExpensesTable>
         <TableHead>
           <TableCell className="type">Tipo</TableCell>
@@ -62,7 +55,7 @@ function Expenses(): JSX.Element {
             <TableRow>
               <TableCell className="type">{expense.type}</TableCell>
               <TableCell className="subtype">{expense.subtype}</TableCell>
-              <TableCell className="amount">{expense.amount} €</TableCell>
+              <TableCell className="amount"><Currency amount={expense.amount} /></TableCell>
               <TableCell className="date">{expense.date}</TableCell>
               <TableCell className="comment">{expense.comment}</TableCell>
             </TableRow>
