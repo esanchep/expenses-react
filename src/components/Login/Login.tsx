@@ -12,7 +12,7 @@ function Login() {
   return (
     <div className="Login">
       <Input onChange={updateToken} className="Login-input" size="lg" />
-      <Button onClick={doLogin}>Login</Button>
+      <Button appearance="primary" onClick={doLogin}>Login</Button>
     </div>
   );
 }
