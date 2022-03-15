@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import "rsuite/dist/rsuite.min.css";
 import App from './components/App';
+import { ConfigProvider } from './components/Configuration/Config';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <ConfigProvider>
+        <App />
+      </ConfigProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
