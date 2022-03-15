@@ -4,11 +4,6 @@
   grid-template-columns: 56px auto;
 }
 
-.Expenses-action-bar {
-  text-align: right;
-  margin-bottom: 10px;
-}
-
 .Expenses-action-bar-button {
   margin-left: 10px;
 }
