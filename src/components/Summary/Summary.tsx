@@ -1,5 +1,11 @@
+import Header from "../Layout/header/Header";
+
 function Summary(): JSX.Element {
-  return (<>Summary</>);
+  return (
+    <>
+      <Header title="Summary" />
+    </>
+  );
 }
 
 export default Summary;
