@@ -2,8 +2,8 @@ import Dashboard from '@rsuite/icons/Dashboard';
 import ListIcon from '@rsuite/icons/List';
 import SettingIcon from '@rsuite/icons/Setting';
 import './Layout.css';
-import Sidebar from './Sidebar';
-import SidebarItem from './SidebarItem';
+import Sidebar from './sidebar/Sidebar';
+import SidebarItem from './sidebar/SidebarItem';
 
 function Layout({ content }: { content: JSX.Element }): JSX.Element {
   return (
