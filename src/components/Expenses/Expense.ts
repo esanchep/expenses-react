@@ -1,5 +1,5 @@
 export type Expense = {
-    id: string;
+    id?: string;
     groupId: string;
     type: string;
     subtype: string;
