@@ -13,9 +13,11 @@ import TableRow from '../Table/TableRow';
 import AddExpense from './AddExpense/AddExpense';
 import { Expense } from "./Expense";
 import './Expenses.css';
+import ExpensesFilter from './ExpensesFilter/ExpensesFilter';
 
 
 function Expenses(): JSX.Element {
+  // const [filter, setFilter] = useState<string>('&pageSize=100');
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const token = localStorage.getItem('token') || '';
   const handleHttpErrors = (response: Response) => {
@@ -24,16 +26,17 @@ function Expenses(): JSX.Element {
     }
     return response.json();
   }
-  const fetchExpenses = () => {
-    fetch(`http://localhost:8080/expenses?groupId=${token}&pageSize=100`, { headers: { token } })
-    .then(handleHttpErrors)
-    .then((response: { reason: string; totalElements: number; expenses: Expense[] }) => {
-      if (!response?.expenses) {
-        throw new Error(!!response ? response.reason : 'Error trying to get expenses.');
-      }
-      setExpenses(response?.expenses || [])
-    })
-    .catch(error => console.error(error.message));
+  // const fetchExpenses = () => {
+  const fetchExpenses = (filter: string) => {
+    fetch(`http://localhost:8080/expenses?groupId=${token}${filter}`, { headers: { token } })
+      .then(handleHttpErrors)
+      .then((response: { reason: string; totalElements: number; expenses: Expense[] }) => {
+        if (!response?.expenses) {
+          throw new Error(!!response ? response.reason : 'Error trying to get expenses.');
+        }
+        setExpenses(response?.expenses || [])
+      })
+      .catch(error => console.error(error.message));
   };
   const addToActualExpensesList = (addedExpense: Expense) => {
     const updatedExpenseList = [...expenses];
@@ -56,19 +59,21 @@ function Expenses(): JSX.Element {
       .catch((error) => console.log(error))
       .finally(() => setAddExpenseOpened(false));
   }
+  // const handleFilter = (newFilter: string) => setFilter(newFilter);
 
   return (
     <>
       <Header title="Expenses">
-        <IconButton onClick={openAddExpenseModal} className="Expenses-action-bar-button" appearance="primary" color="green" size="md" icon={<PlusIcon />}>
-          Add
+        <IconButton onClick={openAddExpenseModal} className="Expenses-action-bar-item" appearance="primary" color="green" size="md" icon={<PlusIcon />}>
+          Añadir
         </IconButton>
-        <IconButton className="Expenses-action-bar-button" size="md" icon={<FunnelIcon />}>
-          Filter
+        <ExpensesFilter className="Expenses-action-bar-item" handleSearch={fetchExpenses} />
+        {/* <IconButton className="Expenses-action-bar-item" size="md" icon={<FunnelIcon />}>
+          Filtrar
         </IconButton>
-        <IconButton className="Expenses-action-bar-button" appearance="primary" onClick={fetchExpenses} size="md" icon={<SearchIcon />}>
-          Search
-        </IconButton>
+        <IconButton className="Expenses-action-bar-item" appearance="primary" onClick={fetchExpenses} size="md" icon={<SearchIcon />}>
+          Buscar
+        </IconButton> */}
       </Header>
       <ExpensesTable>
         <TableHead>

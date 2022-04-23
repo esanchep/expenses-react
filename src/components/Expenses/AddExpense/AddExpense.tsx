@@ -1,80 +1,7 @@
 import { useState } from "react";
 import { Button, DatePicker, Input, InputNumber, InputPicker, Modal } from "rsuite";
 import { ItemDataType } from "rsuite/esm/@types/common";
-import { Expense } from "../Expense";
-
-const OTHERS = "Otros";
-const HOME_ACCESSORIES = "Complementos casa";
-const PHARMACY = "Farmacia";
-const ENTRY = "Ingreso";
-const LEISURE = "Ocio";
-const RECEIPT = "Recibo";
-const PRESENT = "Regalos";
-const ACCESSORIES = "Ropa / Complementos";
-const SUPERMARKET = "Supermercado";
-const TRANSPORT = "Transporte";
-
-const EXPENSE_TYPES = [
-  { label: HOME_ACCESSORIES, value: HOME_ACCESSORIES },
-  { label: PHARMACY, value: PHARMACY },
-  { label: ENTRY, value: ENTRY },
-  { label: LEISURE, value: LEISURE },
-  { label: RECEIPT, value: RECEIPT },
-  { label: PRESENT, value: PRESENT },
-  { label: ACCESSORIES, value: ACCESSORIES },
-  { label: SUPERMARKET, value: SUPERMARKET },
-  { label: TRANSPORT, value: TRANSPORT },
-  { label: OTHERS, value: OTHERS },
-];
-const SUBTYPES: { [key: string]: ItemDataType[] } = {
-  [HOME_ACCESSORIES]: [
-    { label: "-", value: "-" }
-  ],
-  [PHARMACY]: [
-    { label: "-", value: "-" }
-  ],
-  [ENTRY]: [
-    { label: "Sueldo Edu", value: "Sueldo Edu" },
-    { label: "Sueldo MJ", value: "Sueldo MJ" },
-    { label: OTHERS, value: OTHERS }
-  ],
-  [LEISURE]: [
-    { label: "-", value: "-" }
-  ],
-  [RECEIPT]: [
-    { label: "Agua", value: "Agua" },
-    { label: "Alquiler", value: "Alquiler" },
-    { label: "Col·legi Periodistes", value: "Col·legi Periodistes" },
-    { label: "Gimansio", value: "Gimansio" },
-    { label: "Luz", value: "Luz" },
-    { label: "Teléfono / Internet", value: "Teléfono / Internet" },
-    { label: "UGT", value: "UGT" },
-    { label: OTHERS, value: OTHERS },
-  ],
-  [PRESENT]: [
-    { label: "-", value: "-" }
-  ],
-  [ACCESSORIES]: [
-    { label: "-", value: "-" }
-  ],
-  [SUPERMARKET]: [
-    { label: "BonArea", value: "BonArea" },
-    { label: "Clarel", value: "Clarel" },
-    { label: "Condis", value: "Condis" },
-    { label: "Consum", value: "Consum" },
-    { label: "Dia", value: "Dia" },
-    { label: "Frutería", value: "Frutería" },
-    { label: "Mercadona", value: "Mercadona" },
-    { label: "Panadería", value: "Panadería" },
-    { label: OTHERS, value: OTHERS },
-  ],
-  [TRANSPORT]: [
-    { label: "-", value: "-" }
-  ],
-  [OTHERS]: [
-    { label: "-", value: "-" }
-  ],
-};
+import { Expense, TYPES, SUBTYPES } from "../Expense";
 
 function AddExpense({ open, handleClose, handleAddExpense }: { open: boolean; handleClose: () => void; handleAddExpense: (expense: Expense) => void; }): JSX.Element {
   const [type, setType] = useState<string>(undefined!);
@@ -110,11 +37,11 @@ function AddExpense({ open, handleClose, handleAddExpense }: { open: boolean; ha
     <>
       <Modal open={open} onClose={onClose} backdrop="static">
         <Modal.Header>
-          <Modal.Title>Add Expense</Modal.Title>
+          <Modal.Title>Añadir gasto</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div style={{ padding: "5px" }}>Tipo</div>
-          <InputPicker size="lg" data={EXPENSE_TYPES} placeholder=" " onSelect={handleSelectType} style={{width: "100%", marginBottom: "10px"}} />
+          <InputPicker size="lg" data={TYPES} placeholder=" " onSelect={handleSelectType} style={{width: "100%", marginBottom: "10px"}} />
           <div style={{ padding: "5px" }}>Subtipo</div>
           <InputPicker size="lg" data={subtypes} placeholder=" " onSelect={handleSelectSubtype} style={{width: "100%", marginBottom: "10px"}} />
           <div style={{ padding: "5px" }}>Cantidad</div>

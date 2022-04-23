@@ -1,0 +1,25 @@
+.ExpensesFilter {
+  display: inline-block;
+  min-height: 20px;
+  padding-left: 16px;
+  border-radius: 6px;
+  /* background-color: var(--rs-iconbtn-addon); */
+  background-color: var(--rs-iconbtn-primary-addon);
+}
+
+.ExpensesFilter-search-filter {
+  display: inline;
+}
+
+.ExpensesFilter-search-filter-item {
+  margin-right: 10px;
+  display: inline;
+}
+
+.ExpensesFilter-search-button {
+  display: inline-block;
+  padding: 6px 12px 10px 8px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  background-color: var(--rs-btn-primary-bg);
+}
