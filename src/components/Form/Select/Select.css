@@ -1,0 +1,10 @@
+select {
+  background-color: var(--rs-input-bg);
+  color: var(--rs-picker-value);
+  border-radius: 6px;
+  padding: 2px;
+}
+
+option {
+  color: var(--rs-text-primary);
+}

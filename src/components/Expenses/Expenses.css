@@ -7,3 +7,12 @@
 .Expenses-action-bar-item {
   margin-left: 10px;
 }
+
+.Expenses-add-button {
+  padding: 12px !important;
+  margin-bottom: 4px !important;
+}
+
+.bold {
+  font-weight: bold;
+}

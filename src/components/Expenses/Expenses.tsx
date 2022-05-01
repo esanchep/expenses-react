@@ -1,6 +1,4 @@
-import FunnelIcon from '@rsuite/icons/Funnel';
 import PlusIcon from '@rsuite/icons/Plus';
-import SearchIcon from '@rsuite/icons/Search';
 import { useState } from "react";
 import { IconButton } from "rsuite";
 import Currency from '../Currency/Currency';
@@ -17,16 +15,16 @@ import ExpensesFilter from './ExpensesFilter/ExpensesFilter';
 
 
 function Expenses(): JSX.Element {
-  // const [filter, setFilter] = useState<string>('&pageSize=100');
+  let httpError = false;
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const token = localStorage.getItem('token') || '';
   const handleHttpErrors = (response: Response) => {
     if (!response.ok) {
+      httpError = true;
       throw new Error(response.statusText)
     }
     return response.json();
   }
-  // const fetchExpenses = () => {
   const fetchExpenses = (filter: string) => {
     fetch(`http://localhost:8080/expenses?groupId=${token}${filter}`, { headers: { token } })
       .then(handleHttpErrors)
@@ -57,23 +55,20 @@ function Expenses(): JSX.Element {
     }).then(handleHttpErrors)
       .then((addedExpense: Expense) => addToActualExpensesList(addedExpense))
       .catch((error) => console.log(error))
-      .finally(() => setAddExpenseOpened(false));
+      .finally(() => {
+        if (httpError) {
+          // TODO show error popup
+          return;
+        }
+        setAddExpenseOpened(false);
+      });
   }
-  // const handleFilter = (newFilter: string) => setFilter(newFilter);
 
   return (
     <>
-      <Header title="Expenses">
-        <IconButton onClick={openAddExpenseModal} className="Expenses-action-bar-item" appearance="primary" color="green" size="md" icon={<PlusIcon />}>
-          Añadir
-        </IconButton>
+      <Header title="Gastos">
+        <IconButton onClick={openAddExpenseModal} className="Expenses-action-bar-item Expenses-add-button" appearance="primary" color="green" size="md" icon={<PlusIcon />} />
         <ExpensesFilter className="Expenses-action-bar-item" handleSearch={fetchExpenses} />
-        {/* <IconButton className="Expenses-action-bar-item" size="md" icon={<FunnelIcon />}>
-          Filtrar
-        </IconButton>
-        <IconButton className="Expenses-action-bar-item" appearance="primary" onClick={fetchExpenses} size="md" icon={<SearchIcon />}>
-          Buscar
-        </IconButton> */}
       </Header>
       <ExpensesTable>
         <TableHead>
@@ -82,15 +77,17 @@ function Expenses(): JSX.Element {
           <TableCell className="amount">Cantidad</TableCell>
           <TableCell className="date">Fecha</TableCell>
           <TableCell className="comment">Comentario</TableCell>
+          <TableCell className="comment">Acciones</TableCell>
         </TableHead>
         <TableBody>
           {expenses.map(expense =>
             <TableRow key={expense.id}>
               <TableCell className="type">{expense.type}</TableCell>
               <TableCell className="subtype">{expense.subtype}</TableCell>
-              <TableCell className="amount"><Currency amount={expense.amount} /></TableCell>
+              <TableCell className={`amount ${expense.type === 'Ingreso' ? 'bold' : ''}`}><Currency amount={expense.amount} /></TableCell>
               <TableCell className="date">{expense.date}</TableCell>
               <TableCell className="comment">{expense.comment}</TableCell>
+              <TableCell className='actions'>Editar | Borrar</TableCell>
             </TableRow>
           )}
         </TableBody>

@@ -23,7 +23,7 @@ function AddExpense({ open, handleClose, handleAddExpense }: { open: boolean; ha
       setAmount(amountSet);
     }
   };
-  const handleSelectDate = (selectedDate: Date) => setDate(selectedDate);
+  const handleSelectDate = (selectedDate: Date | null) => setDate(selectedDate!);
   const handleSetComment = (commentSet: string) => setComment(commentSet);
   const onClose = () => {
     setType(undefined!);
@@ -32,6 +32,9 @@ function AddExpense({ open, handleClose, handleAddExpense }: { open: boolean; ha
     setDate(undefined!);
     setComment(undefined!);
     handleClose();
+  };
+  const onAddExpense = (expenseToAdd: Expense) => {
+    handleAddExpense(expenseToAdd)
   };
   return (
     <>
@@ -47,7 +50,7 @@ function AddExpense({ open, handleClose, handleAddExpense }: { open: boolean; ha
           <div style={{ padding: "5px" }}>Cantidad</div>
           <InputNumber size="lg" postfix="€" placeholder=" " onChange={handleSetAmount} style={{width: "100%", marginBottom: "10px"}} />
           <div style={{ padding: "5px" }}>Fecha</div>
-          <DatePicker size="lg" placeholder="&nbsp;" onSelect={handleSelectDate} style={{width: "100%", marginBottom: "10px"}} />
+          <DatePicker size="lg" placeholder="&nbsp;" onChange={handleSelectDate} style={{width: "100%", marginBottom: "10px"}} />
           <div style={{ padding: "5px" }}>Comentario</div>
           <Input size="lg" placeholder=" " onChange={handleSetComment} style={{width: "100%"}} />
         </Modal.Body>
@@ -61,7 +64,7 @@ function AddExpense({ open, handleClose, handleAddExpense }: { open: boolean; ha
               date,
               comment,
             };
-            handleAddExpense(expenseToAdd);
+            onAddExpense(expenseToAdd);
           }}>
             Add
           </Button>

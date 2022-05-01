@@ -3,23 +3,24 @@
   min-height: 20px;
   padding-left: 16px;
   border-radius: 6px;
-  /* background-color: var(--rs-iconbtn-addon); */
   background-color: var(--rs-iconbtn-primary-addon);
 }
 
 .ExpensesFilter-search-filter {
-  display: inline;
+  display: inline-block;
 }
 
 .ExpensesFilter-search-filter-item {
   margin-right: 10px;
   display: inline;
+  color: var(--rs-btn-primary-text);
 }
 
 .ExpensesFilter-search-button {
   display: inline-block;
-  padding: 6px 12px 10px 8px;
+  padding: 10px 12px 10px 8px;
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
+  color: var(--rs-btn-primary-text);
   background-color: var(--rs-btn-primary-bg);
 }

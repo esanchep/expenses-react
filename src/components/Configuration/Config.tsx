@@ -26,10 +26,7 @@ export const ConfigProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setTheme] = useState<ThemeType>(localStorage.getItem('theme') === 'dark' ? 'dark' : 'light');
   const configValue: Config = {
     updatedTheme: theme,
-    getTheme: () => {
-      console.log(theme);
-      return theme;
-    },
+    getTheme: () => theme,
     updateTheme: (updatedTheme: ThemeType) => setTheme(updatedTheme)
   };
   return <ConfigContext.Provider value={configValue}>{children}</ConfigContext.Provider>
