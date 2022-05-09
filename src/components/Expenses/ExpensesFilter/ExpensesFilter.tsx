@@ -80,7 +80,6 @@ function ExpensesFilter({ className, handleSearch }: { className: string; handle
   }
   return (
     <>
-      {/* <IconButton className="Expenses-action-bar-item" appearance="primary" color="violet" size="md" icon={<FunnelIcon />} /> */}
       <div className={className + " ExpensesFilter"}>
         <div className="ExpensesFilter-search-filter">
           <div className="ExpensesFilter-search-filter-item">
@@ -96,7 +95,6 @@ function ExpensesFilter({ className, handleSearch }: { className: string; handle
             Hasta: <DatePicker handleChange={handleDateToChange} />
           </div>
           <div className="ExpensesFilter-search-filter-item">
-            {/* Comentario: <input type="text" value={comment} onChange={handleChangeCommentFilter} placeholder=" " style={{ display: "inline-block", width: "175px", color: "var(--rs-text-primary)" }} className="rs-picker rs-picker-input rs-picker-default rs-picker-toggle-wrapper rs-picker-cleanable" /> */}
             Comentario: <TextInput handleChange={handleChangeCommentFilter} />
           </div>
         </div>

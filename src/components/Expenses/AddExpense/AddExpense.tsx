@@ -14,7 +14,6 @@ function AddExpense({ open, handleClose, handleAddExpense }: { open: boolean; ha
     setType(selectedType);
     setSubtypes(SUBTYPES[selectedType]);
   };
-  const handleSelectSubtype = (selectedSubtype: string) => setSubtype(selectedSubtype);
   const handleSetAmount = (amountSet: string | number) => {
     if (typeof amountSet === 'string') {
       setAmount(parseInt(amountSet));
@@ -24,16 +23,19 @@ function AddExpense({ open, handleClose, handleAddExpense }: { open: boolean; ha
     }
   };
   const handleSelectDate = (selectedDate: Date | null) => setDate(selectedDate!);
-  const handleSetComment = (commentSet: string) => setComment(commentSet);
-  const onClose = () => {
+  const resetValues = () => {
     setType(undefined!);
     setSubtype(undefined!);
     setAmount(undefined!);
     setDate(undefined!);
     setComment(undefined!);
+  };
+  const onClose = () => {
+    resetValues();
     handleClose();
   };
   const onAddExpense = (expenseToAdd: Expense) => {
+    resetValues();
     handleAddExpense(expenseToAdd)
   };
   return (
@@ -44,15 +46,15 @@ function AddExpense({ open, handleClose, handleAddExpense }: { open: boolean; ha
         </Modal.Header>
         <Modal.Body>
           <div style={{ padding: "5px" }}>Tipo</div>
-          <InputPicker size="lg" data={TYPES} placeholder=" " onSelect={handleSelectType} style={{width: "100%", marginBottom: "10px"}} />
+          <InputPicker size="lg" data={TYPES} placeholder=" " value={type} onSelect={handleSelectType} style={{width: "100%", marginBottom: "10px"}} />
           <div style={{ padding: "5px" }}>Subtipo</div>
-          <InputPicker size="lg" data={subtypes} placeholder=" " onSelect={handleSelectSubtype} style={{width: "100%", marginBottom: "10px"}} />
+          <InputPicker size="lg" data={subtypes} placeholder=" " value={subtype} onSelect={setSubtype} style={{width: "100%", marginBottom: "10px"}} />
           <div style={{ padding: "5px" }}>Cantidad</div>
-          <InputNumber size="lg" postfix="€" placeholder=" " onChange={handleSetAmount} style={{width: "100%", marginBottom: "10px"}} />
+          <InputNumber size="lg" postfix="€" placeholder=" " value={amount} onChange={handleSetAmount} style={{width: "100%", marginBottom: "10px"}} />
           <div style={{ padding: "5px" }}>Fecha</div>
-          <DatePicker size="lg" placeholder="&nbsp;" onChange={handleSelectDate} style={{width: "100%", marginBottom: "10px"}} />
+          <DatePicker size="lg" placeholder="&nbsp;" value={date} onChange={handleSelectDate} style={{width: "100%", marginBottom: "10px"}} />
           <div style={{ padding: "5px" }}>Comentario</div>
-          <Input size="lg" placeholder=" " onChange={handleSetComment} style={{width: "100%"}} />
+          <Input size="lg" placeholder=" " value={comment} onChange={setComment} style={{width: "100%"}} />
         </Modal.Body>
         <Modal.Footer>
           <Button appearance="primary" color="green" onClick={() => {

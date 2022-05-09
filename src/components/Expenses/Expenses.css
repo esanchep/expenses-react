@@ -16,3 +16,12 @@
 .bold {
   font-weight: bold;
 }
+
+.action {
+  color: var(--rs-text-link);
+}
+
+.action:hover {
+  border-bottom: 1px solid var(--rs-text-link);
+  cursor: pointer;
+}

@@ -1,6 +1,6 @@
 import PlusIcon from '@rsuite/icons/Plus';
 import { useState } from "react";
-import { IconButton } from "rsuite";
+import { IconButton, Message } from "rsuite";
 import Currency from '../Currency/Currency';
 import Header from '../Layout/header/Header';
 import { Table as ExpensesTable } from '../Table/Table';
@@ -9,9 +9,11 @@ import TableCell from '../Table/TableCell';
 import TableHead from '../Table/TableHead';
 import TableRow from '../Table/TableRow';
 import AddExpense from './AddExpense/AddExpense';
+import DeleteExpense from './DeleteExpense/DeleteExpense';
 import { Expense } from "./Expense";
 import './Expenses.css';
 import ExpensesFilter from './ExpensesFilter/ExpensesFilter';
+import toaster from 'rsuite/toaster';
 
 
 function Expenses(): JSX.Element {
@@ -21,13 +23,15 @@ function Expenses(): JSX.Element {
   const handleHttpErrors = (response: Response) => {
     if (!response.ok) {
       httpError = true;
+      toaster.push(<Message showIcon type="error">Error: {response.statusText}</Message>, { placement: 'bottomCenter' });
       throw new Error(response.statusText)
     }
-    return response.json();
+    return response;
   }
   const fetchExpenses = (filter: string) => {
     fetch(`http://localhost:8080/expenses?groupId=${token}${filter}`, { headers: { token } })
       .then(handleHttpErrors)
+      .then((response: Response) => response.json())
       .then((response: { reason: string; totalElements: number; expenses: Expense[] }) => {
         if (!response?.expenses) {
           throw new Error(!!response ? response.reason : 'Error trying to get expenses.');
@@ -53,16 +57,55 @@ function Expenses(): JSX.Element {
       method: 'POST',
       body: JSON.stringify(expense)
     }).then(handleHttpErrors)
-      .then((addedExpense: Expense) => addToActualExpensesList(addedExpense))
+      .then((response: Response) => response.json())
+      .then((addedExpense: Expense) => {
+        toaster.push(<Message showIcon type="success">Gasto añadido</Message>, { placement: 'bottomCenter' });
+        addToActualExpensesList(addedExpense);
+      })
       .catch((error) => console.log(error))
       .finally(() => {
         if (httpError) {
-          // TODO show error popup
           return;
         }
         setAddExpenseOpened(false);
       });
   }
+  const [editExpenseOpened, setEditExpenseOpened] = useState<boolean>(false);
+  const editExpense = (expense: Expense) => {
+    // TODO
+  };
+  const [expenseToDelete, setExpenseToDelete] = useState<string | undefined>(undefined)
+  const [deleteExpenseOpened, setDeleteExpenseOpened] = useState<boolean>(false);
+  const handleCloseDeleteExpense = () => {
+    setDeleteExpenseOpened(false);
+    setExpenseToDelete(undefined);
+  };
+  const removeFromActualExpensesList = (deletedExpense: string) => {
+    const updatedExpenseList = [...expenses];
+    const deletedExpenseIndex: number = updatedExpenseList.findIndex(expense => expense.id = deletedExpense);
+    updatedExpenseList.splice(deletedExpenseIndex, 1);
+    setExpenses(updatedExpenseList);
+  };
+  const handleDeleteExpense = () => {
+    fetch(`http://localhost:8080/expenses/${expenseToDelete}?groupId=${token}`, {
+      headers: {
+        "Content-Type": "application/json",
+        token
+      },
+      method: 'DELETE'
+    }).then(handleHttpErrors)
+      .then(() => {
+        toaster.push(<Message showIcon type="success">Gasto borrado</Message>, { placement: 'bottomCenter' });
+        removeFromActualExpensesList(expenseToDelete!);
+      })
+      .catch((error) => console.log(error))
+      .finally(() => {
+        if (httpError) {
+          return;
+        }
+        handleCloseDeleteExpense();
+      });
+  };
 
   return (
     <>
@@ -87,12 +130,16 @@ function Expenses(): JSX.Element {
               <TableCell className={`amount ${expense.type === 'Ingreso' ? 'bold' : ''}`}><Currency amount={expense.amount} /></TableCell>
               <TableCell className="date">{expense.date}</TableCell>
               <TableCell className="comment">{expense.comment}</TableCell>
-              <TableCell className='actions'>Editar | Borrar</TableCell>
+              <TableCell className='actions'><span className="action" onClick={() => editExpense(expense)}>Editar</span> | <span className="action" onClick={() => {
+                setExpenseToDelete(expense.id);
+                setDeleteExpenseOpened(true);
+              }}>Borrar</span></TableCell>
             </TableRow>
           )}
         </TableBody>
       </ExpensesTable>
       <AddExpense open={addExpenseOpened} handleClose={handleCloseAddExpense} handleAddExpense={handleAddExpense} />
+      <DeleteExpense open={deleteExpenseOpened} handleClose={handleCloseDeleteExpense} handleDeleteExpense={handleDeleteExpense} />
     </>
   );
 }
