@@ -64,6 +64,7 @@ function Expenses(): JSX.Element {
       })
       .catch((error) => console.log(error))
       .finally(() => {
+        console.log(httpError)
         if (httpError) {
           return;
         }
